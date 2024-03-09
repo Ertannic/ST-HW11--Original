@@ -21,11 +21,18 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         ("Режим можема","personalhotspot.circle.fill", .green),
         ("VPN","bolt.horizontal.circle.fill", .blue)
     ]
+    
+    private var secondSectionElements: [(title: String, imageName: String, color: UIColor)] = [
+        ("Уведомления", "bell.circle.fill", .red),
+        ("Звуки, тактильные сигналы", "speaker.wave.2.circle.fill", .red),
+        ("Не беспокоить", "moon.circle.fill", .systemPurple),
+        ("Экранное время", "iphone.circle.fill", .systemPurple),
+    ]
    
     // MARK: - Adding Elements
     
     private lazy var tableView: UITableView = {
-        let tableView = UITableView(frame: .zero, style: .plain)
+        let tableView = UITableView(frame: .zero, style: .grouped)
         tableView.register(CustomTableViewCell.self, forCellReuseIdentifier: "cell")
         tableView.dataSource = self
         tableView.delegate = self
@@ -67,39 +74,54 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     
     // MARK: - Table Functions
     
+    func numberOfSections(in tableView: UITableView) -> Int {
+            return 2 // Две секции: 1-я для существующих элементов, 2-я для новых элементов
+        }
+    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return elements.count
-    }
+        if section == 0 {
+                   return elements.count
+               } else {
+                   return secondSectionElements.count
+               }    }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as! CustomTableViewCell
 
-        let element = elements[indexPath.row]
-        cell.textLabel?.text = element.title
-        cell.customImageView.image = UIImage(systemName: element.imageName)
-        cell.customImageView.tintColor = element.color
+        if indexPath.section == 0 {
+                   let element = elements[indexPath.row]
+                   cell.textLabel?.text = element.title
+                   cell.customImageView.image = UIImage(systemName: element.imageName)
+                   cell.customImageView.tintColor = element.color
+               } else {
+                   let element = secondSectionElements[indexPath.row]
+                   cell.textLabel?.text = element.title
+                   cell.customImageView.image = UIImage(systemName: element.imageName)
+                   cell.customImageView.tintColor = element.color
+               }
+
 
         return cell
     }
     
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         let headerView = UIView()
-        headerView.backgroundColor = .systemGray6
-        return headerView
+            headerView.backgroundColor = .systemGray5
+            return headerView
     }
 
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        return 25 // Устанавливаем высоту заголовка
+        return 20 // Устанавливаем высоту заголовка
     }
 
     func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
         let footerView = UIView()
-        footerView.backgroundColor = .systemGray6
-        return footerView
+            footerView.backgroundColor = .systemGray5
+            return footerView
     }
 
     func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
-        return 40 // Устанавливаем высоту подвала
+        return 20 // Устанавливаем высоту подвала
     }
 }
 
