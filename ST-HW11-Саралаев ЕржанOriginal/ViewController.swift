@@ -29,6 +29,14 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         ("Экранное время", "iphone.circle.fill", .systemPurple),
     ]
    
+    private var additionalSectionElements: [(title: String, imageName: String, color: UIColor)] = [
+        ("Основные", "gear.circle.fill", .gray),
+        ("Пункт Управления", "slider.horizontal.3", .gray),
+        ("Экран и Яркость", "sun.max.circle.fill", .blue),
+        ("Экран <<Домой>>", "house.circle.fill", .blue),
+        ("Универсальный доступ", "figure.walk", .blue),
+    ]
+    
     // MARK: - Adding Elements
     
     private lazy var tableView: UITableView = {
@@ -67,7 +75,7 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     func setupConstraints() {
 
         tableView.snp.makeConstraints { make in
-                make.top.equalTo(view.safeAreaLayoutGuide).offset(-200) // Adjust the top offset as needed
+                make.top.equalTo(view.safeAreaLayoutGuide).offset(-175) // Adjust the top offset as needed
                 make.leading.trailing.bottom.equalToSuperview()
             }
 }
@@ -75,30 +83,44 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     // MARK: - Table Functions
     
     func numberOfSections(in tableView: UITableView) -> Int {
-            return 2 // Две секции: 1-я для существующих элементов, 2-я для новых элементов
+            return 3  // Две секции: 1-я для существующих элементов, 2-я для новых элементов
         }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        if section == 0 {
-                   return elements.count
-               } else {
-                   return secondSectionElements.count
-               }    }
+        switch section {
+        case 0:
+            return elements.count
+        case 1:
+            return secondSectionElements.count
+        case 2:
+            return additionalSectionElements.count
+        default:
+            return 0
+        }
+    }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as! CustomTableViewCell
 
-        if indexPath.section == 0 {
-                   let element = elements[indexPath.row]
-                   cell.textLabel?.text = element.title
-                   cell.customImageView.image = UIImage(systemName: element.imageName)
-                   cell.customImageView.tintColor = element.color
-               } else {
-                   let element = secondSectionElements[indexPath.row]
-                   cell.textLabel?.text = element.title
-                   cell.customImageView.image = UIImage(systemName: element.imageName)
-                   cell.customImageView.tintColor = element.color
-               }
+        switch indexPath.section {
+            case 0:
+                let element = elements[indexPath.row]
+                cell.textLabel?.text = element.title
+                cell.customImageView.image = UIImage(systemName: element.imageName)
+                cell.customImageView.tintColor = element.color
+            case 1:
+                let element = secondSectionElements[indexPath.row]
+                cell.textLabel?.text = element.title
+                cell.customImageView.image = UIImage(systemName: element.imageName)
+                cell.customImageView.tintColor = element.color
+            case 2:
+                let element = additionalSectionElements[indexPath.row]
+                cell.textLabel?.text = element.title
+                cell.customImageView.image = UIImage(systemName: element.imageName)
+                cell.customImageView.tintColor = element.color
+            default:
+                break
+            }
 
 
         return cell
