@@ -60,7 +60,7 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     func setupConstraints() {
 
         tableView.snp.makeConstraints { make in
-                make.top.equalTo(view.safeAreaLayoutGuide).offset(-230) // Adjust the top offset as needed
+                make.top.equalTo(view.safeAreaLayoutGuide).offset(-200) // Adjust the top offset as needed
                 make.leading.trailing.bottom.equalToSuperview()
             }
 }
@@ -78,6 +78,20 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         cell.textLabel?.text = element.title
         cell.customImageView.image = UIImage(systemName: element.imageName)
         cell.customImageView.tintColor = element.color
+        
+        if indexPath.row == 0 {
+                cell.showSwitch(true)
+                cell.switchView.isOn = false
+                cell.switchChanged = { isOn in
+                    if isOn {
+                        print("Включено")
+                    } else {
+                        print("Выключено")
+                    }
+                }
+            } else {
+                cell.showSwitch(false)
+            }
 
         return cell
     }

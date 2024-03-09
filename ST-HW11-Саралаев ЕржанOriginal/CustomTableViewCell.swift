@@ -10,28 +10,59 @@ class CustomTableViewCell: UITableViewCell {
             imageView.tintColor = .black // Начальный цвет изображения
             return imageView
         }()
+    
+    let switchView: UISwitch = {
+            let switchView = UISwitch()
+            switchView.isHidden = true
+            return switchView
+        }()
+        
+        var switchChanged: ((Bool) -> Void)?
+
 
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
            super.init(style: style, reuseIdentifier: reuseIdentifier)
            
            // Добавляем UIImageView к ячейке
-           contentView.addSubview(customImageView)
+        contentView.addSubview(customImageView)
+        contentView.addSubview(switchView)
            
            // Устанавливаем constraints для изображения
-           customImageView.snp.makeConstraints { make in
+        customImageView.snp.makeConstraints { make in
                make.centerY.equalToSuperview()
                make.leading.equalToSuperview().offset(16)
                make.width.height.equalTo(30) // Устанавливаем размер изображения
            }
         
         // Настраиваем порядок отображения текста и изображения
-           textLabel?.snp.makeConstraints { make in
+        textLabel?.snp.makeConstraints { make in
                 make.centerY.equalToSuperview()
                 make.leading.equalTo(customImageView.snp.trailing).offset(16)
             }
+        switchView.snp.makeConstraints { make in
+                    make.centerY.equalToSuperview()
+                    make.trailing.equalToSuperview().offset(-16)
+                }
+                
+        switchView.addTarget(self, action: #selector(switchValueChanged(_:)), for: .valueChanged)
+            
        }
 
-       required init?(coder aDecoder: NSCoder) {
+    required init?(coder aDecoder: NSCoder) {
            fatalError("init(coder:) has not been implemented")
        }
+    
+    override func layoutSubviews() {
+            super.layoutSubviews()
+            
+            switchView.frame.origin.y = (frame.height - switchView.frame.height) / 2
+        }
+    
+    @objc func switchValueChanged(_ sender: UISwitch) {
+            switchChanged?(sender.isOn)
+        }
+        
+    func showSwitch(_ show: Bool) {
+            switchView.isHidden = !show
+        }
    }
