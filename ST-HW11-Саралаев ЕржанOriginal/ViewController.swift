@@ -15,21 +15,10 @@ class ViewController: UIViewController, UITableViewDataSource {
    
     // MARK: - Adding Elements
     
-    private lazy var mainLabel: UILabel = {
-        let titleText = UILabel()
-        titleText.text = "Настройки"
-        titleText.textAlignment = .center
-        titleText.font = UIFont.systemFont(ofSize: 24, weight: .bold)
-        titleText.textColor = UIColor.black
-        
-        return titleText
-    }()
-    
     private lazy var tableView: UITableView = {
         let tableView = UITableView(frame: .zero, style: .plain)
         tableView.register(UITableViewCell.self, forCellReuseIdentifier: "cell")
         tableView.dataSource = self
-        tableView.delegate = self
         return tableView
         
     }()
@@ -38,34 +27,33 @@ class ViewController: UIViewController, UITableViewDataSource {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        let titleLabel = UILabel()
+        titleLabel.text = "Настройки"
+        titleLabel.textAlignment = .center
+        titleLabel.textColor = .black // Устанавливаем желаемый цвет
+        titleLabel.font = UIFont.boldSystemFont(ofSize: 24) //
+        navigationItem.titleView = titleLabel
         view.backgroundColor = .white
         navigationController?.navigationBar.prefersLargeTitles = true
         
         setupElements()
-        setupConstaints()
+        setupConstraints()
         
     }
     
     // MARK: - Add setups
 
     func setupElements() {
-        view.addSubview(mainLabel)
         view.addSubview(tableView)
     }
 
-    func setupConstaints() {
-        
-        mainLabel.snp.makeConstraints { make in
-            make.top.equalTo(view.safeAreaLayoutGuide.snp.top).offset(-80)
-            make.centerX.equalToSuperview()
-        }
+    func setupConstraints() {
 
         tableView.snp.makeConstraints { make in
-            make.top.equalTo(mainLabel.snp.bottom).offset(16)
-            make.right.bottom.left.equalToSuperview()
-        }
-    }
+                make.top.equalTo(view.safeAreaLayoutGuide).offset(-180) // Adjust the top offset as needed
+                make.leading.trailing.bottom.equalToSuperview()
+            }
+}
     
     // MARK: - Table Functions
     
@@ -80,44 +68,3 @@ class ViewController: UIViewController, UITableViewDataSource {
     }
 }
 
-// MARK: - Extensions
-
-extension ViewController: UITableViewDelegate {
-    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        let headerView = UIView()
-        headerView.backgroundColor = UIColor.systemGray6
-
-        let headerLabel = UILabel()
-        headerLabel.text = " "
-        headerView.addSubview(headerLabel)
-
-        headerLabel.snp.makeConstraints { make in
-            make.edges.equalToSuperview().inset(UIEdgeInsets(top: 8, left: 16, bottom: 8, right: 16))
-        }
-
-        return headerView
-    }
-
-    func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
-        let footerView = UIView()
-        footerView.backgroundColor = UIColor.systemGray6
-
-        let footerLabel = UILabel()
-        footerLabel.text = " "
-        footerView.addSubview(footerLabel)
-
-        footerLabel.snp.makeConstraints { make in
-            make.edges.equalToSuperview().inset(UIEdgeInsets(top: 8, left: 16, bottom: 8, right: 16))
-        }
-
-        return footerView
-    }
-
-    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        return 25
-    }
-
-    func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
-        return 40
-    }
-}
