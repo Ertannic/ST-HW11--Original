@@ -43,7 +43,7 @@ class ViewController: UIViewController, UITableViewDataSource {
         navigationController?.navigationBar.prefersLargeTitles = true
         
         setupElements()
-        setupConstaints()
+        setupConstraints()
         
     }
     
@@ -54,15 +54,14 @@ class ViewController: UIViewController, UITableViewDataSource {
         view.addSubview(tableView)
     }
 
-    func setupConstaints() {
-        
+    func setupConstraints() {
         mainLabel.snp.makeConstraints { make in
-            make.top.equalTo(view.safeAreaLayoutGuide.snp.top).offset(-80)
+            make.top.equalTo(view.safeAreaLayoutGuide.snp.top).offset(200)
             make.centerX.equalToSuperview()
         }
 
         tableView.snp.makeConstraints { make in
-            make.top.equalTo(mainLabel.snp.bottom).offset(16)
+            make.top.equalTo(mainLabel.snp.bottom).offset(-200)
             make.right.bottom.left.equalToSuperview()
         }
     }
