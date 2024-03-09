@@ -9,7 +9,7 @@ import UIKit
 import SnapKit
 
 
-class ViewController: UIViewController, UITableViewDataSource {
+class ViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
     
     private var elements = ["Авиарежим", "Wi-Fi", "Blotooth", "Сотовая связь", "Режим можема", "VPN"]
    
@@ -19,6 +19,7 @@ class ViewController: UIViewController, UITableViewDataSource {
         let tableView = UITableView(frame: .zero, style: .plain)
         tableView.register(UITableViewCell.self, forCellReuseIdentifier: "cell")
         tableView.dataSource = self
+        tableView.delegate = self
         return tableView
         
     }()
@@ -31,7 +32,7 @@ class ViewController: UIViewController, UITableViewDataSource {
         titleLabel.text = "Настройки"
         titleLabel.textAlignment = .center
         titleLabel.textColor = .black // Устанавливаем желаемый цвет
-        titleLabel.font = UIFont.boldSystemFont(ofSize: 24) //
+        titleLabel.font = UIFont.boldSystemFont(ofSize: 20) //
         navigationItem.titleView = titleLabel
         view.backgroundColor = .white
         navigationController?.navigationBar.prefersLargeTitles = true
@@ -50,7 +51,7 @@ class ViewController: UIViewController, UITableViewDataSource {
     func setupConstraints() {
 
         tableView.snp.makeConstraints { make in
-                make.top.equalTo(view.safeAreaLayoutGuide).offset(-180) // Adjust the top offset as needed
+                make.top.equalTo(view.safeAreaLayoutGuide).offset(-230) // Adjust the top offset as needed
                 make.leading.trailing.bottom.equalToSuperview()
             }
 }
@@ -65,6 +66,26 @@ class ViewController: UIViewController, UITableViewDataSource {
         let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath)
         cell.textLabel?.text = elements[indexPath.row]
         return cell
+    }
+    
+    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        let headerView = UIView()
+        headerView.backgroundColor = .systemGray6
+        return headerView
+    }
+
+    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        return 25 // Устанавливаем высоту заголовка
+    }
+
+    func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
+        let footerView = UIView()
+        footerView.backgroundColor = .systemGray6
+        return footerView
+    }
+
+    func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
+        return 40 // Устанавливаем высоту подвала
     }
 }
 
