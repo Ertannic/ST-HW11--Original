@@ -16,6 +16,13 @@ class CustomTableViewCell: UITableViewCell {
             switchView.isHidden = true
             return switchView
         }()
+    
+    let customDetailTextLabel: UILabel = {
+            let label = UILabel()
+            label.textColor = .gray
+            label.font = UIFont.systemFont(ofSize: 14)
+            return label
+        }()
         
         var switchChanged: ((Bool) -> Void)?
 
@@ -39,6 +46,13 @@ class CustomTableViewCell: UITableViewCell {
                 make.centerY.equalToSuperview()
                 make.leading.equalTo(customImageView.snp.trailing).offset(16)
             }
+        
+        contentView.addSubview(customDetailTextLabel)
+                customDetailTextLabel.snp.makeConstraints { make in
+                    make.centerY.equalToSuperview()
+                    make.trailing.equalToSuperview().offset(-16)
+                }
+        
         switchView.snp.makeConstraints { make in
                     make.centerY.equalToSuperview()
                     make.trailing.equalToSuperview().offset(-16)

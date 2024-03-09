@@ -27,6 +27,8 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     private lazy var tableView: UITableView = {
         let tableView = UITableView(frame: .zero, style: .plain)
         tableView.register(CustomTableViewCell.self, forCellReuseIdentifier: "cell")
+        tableView.rowHeight = UITableView.automaticDimension
+        tableView.estimatedRowHeight = 44
         tableView.dataSource = self
         tableView.delegate = self
         return tableView
@@ -79,7 +81,7 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         cell.customImageView.image = UIImage(systemName: element.imageName)
         cell.customImageView.tintColor = element.color
         
-        if indexPath.row == 0 {
+        if indexPath.row == 0 || indexPath.row == elements.count - 1 {
                 cell.showSwitch(true)
                 cell.switchView.isOn = false
                 cell.switchChanged = { isOn in
@@ -92,6 +94,19 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
             } else {
                 cell.showSwitch(false)
             }
+        
+        if indexPath.row == 1 {
+                cell.customDetailTextLabel.text = "Не подключено"
+                cell.accessoryType = .disclosureIndicator
+            } else if indexPath.row == 2 { 
+                cell.customDetailTextLabel.text = "Вкл."
+                cell.accessoryType = .disclosureIndicator
+            } else {
+                cell.customDetailTextLabel.text = nil
+                cell.accessoryType = .none
+            }
+
+
 
         return cell
     }
