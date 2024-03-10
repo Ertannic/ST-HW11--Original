@@ -163,5 +163,28 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
         return 20 // Устанавливаем высоту подвала
     }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+            tableView.deselectRow(at: indexPath, animated: true) // Сбрасываем выделение ячейки
+            
+            switch indexPath.section {
+            case 0:
+                let element = elements[indexPath.row]
+                handleCellSelection(with: element.title)
+            case 1:
+                let element = secondSectionElements[indexPath.row]
+                handleCellSelection(with: element.title)
+            case 2:
+                let element = additionalSectionElements[indexPath.row]
+                handleCellSelection(with: element.title)
+            default:
+                break
+            }
+        
+         func handleCellSelection(with title: String) {
+                print("Вы нажали \(title)")
+                // Здесь вы можете выполнить любые дополнительные действия при выборе ячейки
+            }
+        }
 }
 
