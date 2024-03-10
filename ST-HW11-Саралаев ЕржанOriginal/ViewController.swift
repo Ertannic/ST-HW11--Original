@@ -1,17 +1,9 @@
-//
-//  ViewController.swift
-//  ST-HW11-Саралаев ЕржанOriginal
-//
-//  Created by Ertannic Saralay on 09.03.2024.
-//
-
 import UIKit
 import SnapKit
 
 
 class ViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
     
-//    private var elements = ["Авиарежим", "Wi-Fi", "Blotooth", "Сотовая связь", "Режим можема", "VPN"]
     
     private var elements: [(title: String, imageName: String, color: UIColor, detailText: String?)] = [
         ("Авиарежим", "airplane.circle.fill", .orange, nil),
@@ -28,7 +20,7 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         ("Не беспокоить", "moon.circle.fill", .systemPurple),
         ("Экранное время", "iphone.circle.fill", .systemPurple),
     ]
-   
+    
     private var additionalSectionElements: [(title: String, imageName: String, color: UIColor)] = [
         ("Основные", "gear.circle.fill", .gray),
         ("Пункт Управления", "slider.horizontal.3", .gray),
@@ -55,7 +47,7 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         let titleLabel = UILabel()
         titleLabel.text = "Настройки"
         titleLabel.textAlignment = .center
-        titleLabel.textColor = .black // Устанавливаем желаемый цвет
+        titleLabel.textColor = .black
         titleLabel.font = UIFont.boldSystemFont(ofSize: 20) //
         navigationItem.titleView = titleLabel
         view.backgroundColor = .white
@@ -67,24 +59,24 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     }
     
     // MARK: - Add setups
-
+    
     func setupElements() {
         view.addSubview(tableView)
     }
-
+    
     func setupConstraints() {
-
+        
         tableView.snp.makeConstraints { make in
-                make.top.equalTo(view.safeAreaLayoutGuide).offset(-175) // Adjust the top offset as needed
-                make.leading.trailing.bottom.equalToSuperview()
-            }
-}
+            make.top.equalTo(view.safeAreaLayoutGuide).offset(-175)
+            make.leading.trailing.bottom.equalToSuperview()
+        }
+    }
     
     // MARK: - Table Functions
     
     func numberOfSections(in tableView: UITableView) -> Int {
-            return 3  // Две секции: 1-я для существующих элементов, 2-я для новых элементов
-        }
+        return 3
+    }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         switch section {
@@ -101,90 +93,104 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as! CustomTableViewCell
-
+        
         switch indexPath.section {
-                case 0:
-                    let element = elements[indexPath.row]
-                    cell.textLabel?.text = element.title
-                    cell.customImageView.image = UIImage(systemName: element.imageName)
-                    cell.customImageView.tintColor = element.color
-                    cell.customDetailTextLabel.text = element.detailText
-                    cell.showSwitch(element.title == "Авиарежим" || element.title == "VPN")
-                    cell.switchChanged = { [weak self] isOn in
-                        self?.handleSwitchChange(for: element.title, isOn: isOn)
-                    }
-                    if element.title != "Авиарежим" && element.title != "VPN" {
-                       cell.accessoryType = .disclosureIndicator
-                   } else {
-                       cell.accessoryType = .none
-                   }
-                case 1:
-                    let element = secondSectionElements[indexPath.row]
-                    cell.textLabel?.text = element.title
-                    cell.customImageView.image = UIImage(systemName: element.imageName)
-                    cell.customImageView.tintColor = element.color
-                    cell.accessoryType = .disclosureIndicator
-                case 2:
-                    let element = additionalSectionElements[indexPath.row]
-                    cell.textLabel?.text = element.title
-                    cell.customImageView.image = UIImage(systemName: element.imageName)
-                    cell.customImageView.tintColor = element.color
-                    cell.showSwitch(false)
-                    cell.accessoryType = .disclosureIndicator
-                default:
-                    break
+        case 0:
+            let element = elements[indexPath.row]
+            cell.textLabel?.text = element.title
+            cell.customImageView.image = UIImage(systemName: element.imageName)
+            cell.customImageView.tintColor = element.color
+            cell.customDetailTextLabel.text = element.detailText
+            cell.showSwitch(element.title == "Авиарежим" || element.title == "VPN")
+            cell.switchChanged = { [weak self] isOn in
+                self?.handleSwitchChange(for: element.title, isOn: isOn)
             }
-
-
+            if element.title != "Авиарежим" && element.title != "VPN" {
+                cell.accessoryType = .disclosureIndicator
+            } else {
+                cell.accessoryType = .none
+            }
+        case 1:
+            let element = secondSectionElements[indexPath.row]
+            cell.textLabel?.text = element.title
+            cell.customImageView.image = UIImage(systemName: element.imageName)
+            cell.customImageView.tintColor = element.color
+            cell.accessoryType = .disclosureIndicator
+        case 2:
+            let element = additionalSectionElements[indexPath.row]
+            cell.textLabel?.text = element.title
+            cell.customImageView.image = UIImage(systemName: element.imageName)
+            cell.customImageView.tintColor = element.color
+            cell.showSwitch(false)
+            cell.accessoryType = .disclosureIndicator
+        default:
+            break
+        }
+        
+        
         return cell
     }
     
     func handleSwitchChange(for title: String, isOn: Bool) {
-           // Обработка изменений в переключателе
-           print("Switch state changed for element '\(title)': \(isOn)")
-       }
+        
+        print("Switch state changed for element '\(title)': \(isOn)")
+    }
     
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         let headerView = UIView()
-            headerView.backgroundColor = .systemGray5
-            return headerView
+        headerView.backgroundColor = .systemGray5
+        return headerView
     }
-
+    
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        return 20 // Устанавливаем высоту заголовка
+        return 20
     }
-
+    
     func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
         let footerView = UIView()
-            footerView.backgroundColor = .systemGray5
-            return footerView
+        footerView.backgroundColor = .systemGray5
+        return footerView
     }
-
+    
     func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
-        return 20 // Устанавливаем высоту подвала
+        return 20
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-            tableView.deselectRow(at: indexPath, animated: true) // Сбрасываем выделение ячейки
-            
-            switch indexPath.section {
-            case 0:
-                let element = elements[indexPath.row]
-                handleCellSelection(with: element.title)
-            case 1:
-                let element = secondSectionElements[indexPath.row]
-                handleCellSelection(with: element.title)
-            case 2:
-                let element = additionalSectionElements[indexPath.row]
-                handleCellSelection(with: element.title)
-            default:
-                break
-            }
+        tableView.deselectRow(at: indexPath, animated: true)
         
-         func handleCellSelection(with title: String) {
-                print("Вы нажали \(title)")
-                // Здесь вы можете выполнить любые дополнительные действия при выборе ячейки
-            }
+        switch indexPath.section {
+        case 0:
+            let element = elements[indexPath.row]
+            handleCellSelection(with: element.title)
+        case 1:
+            let element = secondSectionElements[indexPath.row]
+            handleCellSelection(with: element.title)
+        case 2:
+            let element = additionalSectionElements[indexPath.row]
+            handleCellSelection(with: element.title)
+        default:
+            break
         }
+        
+        func handleCellSelection(with title: String) {
+            print("Вы нажали \(title)")
+            
+            switch title {
+                   case "Не беспокоить":
+                       let dndViewController = DoNotDisturbViewController()
+                       navigationController?.pushViewController(dndViewController, animated: true)
+                   default:
+                       let emptyViewController = EmptyViewController()
+                       let backButton = UIBarButtonItem()
+                       backButton.title = "Назад"
+                       navigationItem.backBarButtonItem = backButton
+                       navigationController?.pushViewController(emptyViewController, animated: true)
+                   }
+        }
+        
+        func doNotDisturbSwitchChanged(isOn: Bool) {
+                print("Состояние переключателя изменено для режима «Не беспокоить»: \(isOn)")
+            }
+    }
 }
-
