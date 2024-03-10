@@ -103,28 +103,38 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as! CustomTableViewCell
 
         switch indexPath.section {
-            case 0:
-                let element = elements[indexPath.row]
-                cell.textLabel?.text = element.title
-                cell.customImageView.image = UIImage(systemName: element.imageName)
-                cell.customImageView.tintColor = element.color
-            case 1:
-                let element = secondSectionElements[indexPath.row]
-                cell.textLabel?.text = element.title
-                cell.customImageView.image = UIImage(systemName: element.imageName)
-                cell.customImageView.tintColor = element.color
-            case 2:
-                let element = additionalSectionElements[indexPath.row]
-                cell.textLabel?.text = element.title
-                cell.customImageView.image = UIImage(systemName: element.imageName)
-                cell.customImageView.tintColor = element.color
-            default:
-                break
+                case 0:
+                    let element = elements[indexPath.row]
+                    cell.textLabel?.text = element.title
+                    cell.customImageView.image = UIImage(systemName: element.imageName)
+                    cell.customImageView.tintColor = element.color
+                    cell.showSwitch(element.title == "Авиарежим" || element.title == "VPN")
+                    cell.switchChanged = { [weak self] isOn in
+                        self?.handleSwitchChange(for: element.title, isOn: isOn)
+                    }
+                case 1:
+                    let element = secondSectionElements[indexPath.row]
+                    cell.textLabel?.text = element.title
+                    cell.customImageView.image = UIImage(systemName: element.imageName)
+                    cell.customImageView.tintColor = element.color
+                case 2:
+                    let element = additionalSectionElements[indexPath.row]
+                    cell.textLabel?.text = element.title
+                    cell.customImageView.image = UIImage(systemName: element.imageName)
+                    cell.customImageView.tintColor = element.color
+                    cell.showSwitch(false)
+                default:
+                    break
             }
 
 
         return cell
     }
+    
+    func handleSwitchChange(for title: String, isOn: Bool) {
+           // Обработка изменений в переключателе
+           print("Switch state changed for element '\(title)': \(isOn)")
+       }
     
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         let headerView = UIView()
