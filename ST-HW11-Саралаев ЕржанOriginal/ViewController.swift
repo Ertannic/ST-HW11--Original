@@ -112,17 +112,24 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
                     cell.switchChanged = { [weak self] isOn in
                         self?.handleSwitchChange(for: element.title, isOn: isOn)
                     }
+                    if element.title != "Авиарежим" && element.title != "VPN" {
+                       cell.accessoryType = .disclosureIndicator
+                   } else {
+                       cell.accessoryType = .none
+                   }
                 case 1:
                     let element = secondSectionElements[indexPath.row]
                     cell.textLabel?.text = element.title
                     cell.customImageView.image = UIImage(systemName: element.imageName)
                     cell.customImageView.tintColor = element.color
+                    cell.accessoryType = .disclosureIndicator
                 case 2:
                     let element = additionalSectionElements[indexPath.row]
                     cell.textLabel?.text = element.title
                     cell.customImageView.image = UIImage(systemName: element.imageName)
                     cell.customImageView.tintColor = element.color
                     cell.showSwitch(false)
+                    cell.accessoryType = .disclosureIndicator
                 default:
                     break
             }
