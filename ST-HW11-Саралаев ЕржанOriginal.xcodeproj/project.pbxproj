@@ -69,10 +69,10 @@
 				521C66E62B9C18F70034B3DA /* ViewController.swift */,
 				521C66FB2B9C4CFF0034B3DA /* CustomTableViewCell.swift */,
 				521C66FD2B9E009F0034B3DA /* DoNotDisturbViewController.swift */,
+				521C66FF2B9E05F30034B3DA /* EmptyViewController.swift */,
 				521C66EB2B9C18FA0034B3DA /* Assets.xcassets */,
 				521C66ED2B9C18FA0034B3DA /* LaunchScreen.storyboard */,
 				521C66F02B9C18FA0034B3DA /* Info.plist */,
-				521C66FF2B9E05F30034B3DA /* EmptyViewController.swift */,
 			);
 			path = "ST-HW11-Саралаев ЕржанOriginal";
 			sourceTree = "<group>";
