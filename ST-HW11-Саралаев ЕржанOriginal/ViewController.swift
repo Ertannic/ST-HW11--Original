@@ -13,13 +13,13 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     
 //    private var elements = ["Авиарежим", "Wi-Fi", "Blotooth", "Сотовая связь", "Режим можема", "VPN"]
     
-    private var elements: [(title: String, imageName: String, color: UIColor)] = [
-        ("Авиарежим", "airplane.circle.fill", .orange),
-        ("Wi-Fi", "wifi.circle.fill", .blue),
-        ("Bluetooth", "bolt.horizontal.circle.fill", .blue),
-        ("Сотовая связь","antenna.radiowaves.left.and.right.circle.fill", .green),
-        ("Режим можема","personalhotspot.circle.fill", .green),
-        ("VPN","bolt.horizontal.circle.fill", .blue)
+    private var elements: [(title: String, imageName: String, color: UIColor, detailText: String?)] = [
+        ("Авиарежим", "airplane.circle.fill", .orange, nil),
+        ("Wi-Fi", "wifi.circle.fill", .blue, "Не подключено"),
+        ("Bluetooth", "bolt.horizontal.circle.fill", .blue, "Вкл."),
+        ("Сотовая связь","antenna.radiowaves.left.and.right.circle.fill", .green, nil),
+        ("Режим можема","personalhotspot.circle.fill", .green, nil),
+        ("VPN","bolt.horizontal.circle.fill", .blue, nil)
     ]
     
     private var secondSectionElements: [(title: String, imageName: String, color: UIColor)] = [
@@ -108,6 +108,7 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
                     cell.textLabel?.text = element.title
                     cell.customImageView.image = UIImage(systemName: element.imageName)
                     cell.customImageView.tintColor = element.color
+                    cell.customDetailTextLabel.text = element.detailText
                     cell.showSwitch(element.title == "Авиарежим" || element.title == "VPN")
                     cell.switchChanged = { [weak self] isOn in
                         self?.handleSwitchChange(for: element.title, isOn: isOn)
